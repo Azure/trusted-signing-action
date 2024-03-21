@@ -1,0 +1,352 @@
+name: 'Azure Code Signing'
+description: 'Sign your files with Azure Code Signing.'
+inputs:
+  azure-tenant-id:
+    description: The Azure Active Directory tenant (directory) ID.
+    required: false
+  azure-client-id:
+    description: The client (application) ID of an App Registration in the tenant.
+    required: false
+  azure-client-secret:
+    description: A client secret that was generated for the App Registration.
+    required: false
+  azure-client-certificate-path:
+    description: A path to certificate and private key pair in PEM or PFX format, which can authenticate
+                 the App Registration.
+    required: false
+  azure-client-send-certificate-chain:
+    description: Specifies whether an authentication request will include an x5c header to support subject
+                 name / issuer based authentication. When set to `true` or `1`, authentication requests
+                 include the x5c header.
+    required: false
+  azure-username:
+    description: The username, also known as upn, of an Azure Active Directory user account.
+    required: false
+  azure-password:
+    description: The password of the Azure Active Directory user account. Note this does not support
+                 accounts with MFA enabled.
+    required: false
+  endpoint:
+    description: The Code Signing Account endpoint. The URI value must have a URI that aligns to the
+                 region your Code Signing Account and Certificate Profile you are specifying were created
+                 in during the setup of these resources.
+    required: true
+  code-signing-account-name:
+    description: The Code Signing Account name.
+    required: true
+  certificate-profile-name:
+    description: The Certificate Profile name.
+    required: true
+  files-folder:
+    description: The folder containing files to be signed. Can be combined with the file-catalog input.
+    required: false
+  files-folder-filter:
+    description: A comma separated list of file extensions that determines which types of files will
+                 be signed in the folder specified by the files-folder input. E.g., 'dll,exe,msix'.
+                 Any file type not included in this list will not be signed. If this input is not used,
+                 all files in the folder will be signed.
+    required: false
+  files-folder-recurse:
+    description: A boolean value (true/false) that indicates if the folder specified by the files-folder
+                 input should be searched recursively. The default value is false.
+    required: false
+  files-folder-depth:
+    description: An integer value that indicates the depth of the recursive search toggled by the
+                 files-folder-recursive input.
+    required: false
+  files-catalog:
+    description: A file containing a list of relative paths to the files being signed. The paths
+                 should be relative to the location of the catalog file. Each file path should be on
+                 a separate line. Can be combined with the files-folder input.
+    required: false
+  file-digest:
+    description: The name of the digest algorithm used for hashing the files being signed (e.g. SHA256).
+    required: false
+  timestamp-rfc3161:
+    description: A URL to an RFC3161 compliant timestamping service.
+    required: false
+  timestamp-digest:
+    description: The name of the digest algorithm used for timestamping.
+    required: false
+  append-signature:
+    description: A boolean value (true/false) that indicates if the signature should be appended. If
+                 no primary signature is present, this signature is made the primary signature instead.
+    required: false
+  description:
+    description: A description of the signed content.
+    required: false
+  description-url:
+    description: A Uniform Resource Locator (URL) for the expanded description of the signed content.
+    required: false
+  generate-digest-path:
+    description: Generates the digest to be signed and the unsigned PKCS7 files at this path. The output
+                 digest and PKCS7 files will be path\FileName.dig and path\FileName.p7u. To output an additional
+                 XML file, see `generate-digest-xml`.
+    required: false
+  generate-digest-xml:
+    description: A boolean value (true/false) that indicates if an XML file is produced when the
+                 `generate-digest-path` input is used. The output file will be Path\FileName.dig.xml.
+    required: false
+  ingest-digest-path:
+    description: Creates the signature by ingesting the signed digest to the unsigned PKCS7 file at this
+                 path. The input signed digest and unsigned PKCS7 files should be path\FileName.dig.signed
+                 and path\FileName.p7u.
+    required: false
+  sign-digest:
+    description: A boolean value (true/false) that indicates if only the digest should be signed. The
+                 input file should be the digest generated by the `generate-digest-path` input. The output
+                 file will be File.signed.
+    required: false
+  generate-page-hashes:
+    description: A boolean value (true/false) that indicates if page hashes should be generated for
+                 executable files.
+    required: false
+  suppress-page-hashes:
+    description: A boolean value (true/false) that indicates if page hashes should be suppressed for
+                 executable files. The default is determined by the SIGNTOOL_PAGE_HASHES environment
+                 variable and by the wintrust.dll version. This input is ignored for non-PE files.
+    required: false
+  generate-pkcs7:
+    description: A boolean value (true/false) that indicates if a Public Key Cryptography Standards
+                 (PKCS) \#7 file is produced for each specified content file. PKCS \#7 files are named
+                 path\filename.p7.
+    required: false
+  pkcs7-options:
+    description: Options for the signed PKCS \#7 content. Set value to "Embedded" to embed the signed
+                 content in the PKCS \#7 file, or to "DetachedSignedData" to produce the signed data
+                 portion of a detached PKCS \#7 file. If this input is not used, the signed content is
+                 embedded by default.
+    required: false
+  pkcs7-oid:
+    description: The object identifier (OID) that identifies the signed PKCS \#7 content.
+    required: false
+  enhanced-key-usage:
+    description: The enhanced key usage (EKU) that must be present in the signing certificate. The usage
+                 value can be specified by OID or string. The default usage is "Code Signing" (1.3.6.1.5.5.7.3.3).
+    required: false
+  exclude-environment-credential:
+    description: Exclude the "EnvironmentCredential" type from being considered when authenticating with "DefaultAzureCredential".
+    required: false
+  exclude-managed-identity-credential:
+    description: Exclude the "ManagedIdentity" type from being considered when authenticating with "DefaultAzureCredential".
+    required: false
+  exclude-shared-token-cache-credential:
+    description: Exclude the "SharedTokenCacheCredential" type from being considered when authenticating with "DefaultAzureCredential".
+    required: false
+  exclude-visual-studio-credential:
+    description: Exclude the "VisualStudioCredential" type from being considered when authenticating with "DefaultAzureCredential".
+    required: false
+  exclude-visual-studio-code-credential:
+    description: Exclude the "VisualStudioCodeCredential" type from being considered when authenticating with "DefaultAzureCredential".
+    required: false
+  exclude-azure-cli-credential:
+    description: Exclude the "AzureCliCredential" type from being considered when authenticating with "DefaultAzureCredential".
+    required: false
+  exclude-azure-powershell-credential:
+    description: Exclude the "AzurePowerShellCredential" type from being considered when authenticating with "DefaultAzureCredential".
+    required: false
+  exclude-interactive-browser-credential:
+    description: Exclude the "InteractiveBrowserCredential" type from being considered when authenticating with "DefaultAzureCredential".
+    required: false
+    default: 'true'
+  timeout:
+    description: The number of seconds that the Azure Code Signing service will wait for all files
+                 to be signed before it exits. The default value is 300 seconds.
+    required: false
+  batch-size:
+    description: The summed length of file paths that can be signed with each signtool call. This parameter
+                 should only be relevant if you are signing a large number of files. Increasing the value
+                 may result in performance gains at the risk of potentially hitting your system's maximum
+                 command length limit. The minimum value is 0 and the maximum value is 30000. A value of
+                 0 means that every file will be signed with an individual call to signtool.
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Invoke signing
+      env:
+        AZURE_TENANT_ID: ${{ inputs.azure-tenant-id }}
+        AZURE_CLIENT_ID: ${{ inputs.azure-client-id }}
+        AZURE_CLIENT_SECRET: ${{ inputs.azure-client-secret }}
+        AZURE_CLIENT_CERTIFICATE_PATH: ${{ inputs.azure-client-certificate-path }}
+        AZURE_CLIENT_SEND_CERTIFICATE_CHAIN: ${{ inputs.azure-client-send-certificate-chain }}
+        AZURE_USERNAME: ${{ inputs.azure-username }}
+        AZURE_PASSWORD: ${{ inputs.azure-password }}
+      run: |
+        Install-Module -Name AzureCodeSigning -RequiredVersion 0.3.0 -Force -Repository PSGallery
+
+        $params = @{}
+
+        $endpoint = "${{ inputs.endpoint }}"
+        if (-Not [string]::IsNullOrWhiteSpace($endpoint)) {
+          $params["Endpoint"] = $endpoint
+        }
+
+        $codeSigningAccountName = "${{ inputs.code-signing-account-name }}"
+        if (-Not [string]::IsNullOrWhiteSpace($codeSigningAccountName)) {
+          $params["CodeSigningAccountName"] = $codeSigningAccountName
+        }
+
+        $certificateProfileName = "${{ inputs.certificate-profile-name }}"
+        if (-Not [string]::IsNullOrWhiteSpace($certificateProfileName)) {
+          $params["CertificateProfileName"] = $certificateProfileName
+        }
+
+        $filesFolder = "${{ inputs.files-folder }}"
+        if (-Not [string]::IsNullOrWhiteSpace($filesFolder)) {
+          $params["FilesFolder"] = $filesFolder
+        }
+
+        $filesFolderFilter = "${{ inputs.files-folder-filter }}"
+        if (-Not [string]::IsNullOrWhiteSpace($filesFolderFilter)) {
+          $params["FilesFolderFilter"] = $filesFolderFilter
+        }
+
+        $filesFolderRecurse = "${{ inputs.files-folder-recurse }}"
+        if (-Not [string]::IsNullOrWhiteSpace($filesFolderRecurse)) {
+          $params["FilesFolderRecurse"] = [System.Convert]::ToBoolean($filesFolderRecurse)
+        }
+
+        $filesFolderDepth = "${{ inputs.files-folder-depth }}"
+        if (-Not [string]::IsNullOrWhiteSpace($filesFolderDepth)) {
+          $params["FilesFolderDepth"] = [System.Convert]::ToInt32($filesFolderDepth)
+        }
+
+        $filesCatalog = "${{ inputs.files-catalog }}"
+        if (-Not [string]::IsNullOrWhiteSpace($filesCatalog)) {
+          $params["FilesCatalog"] = $filesCatalog
+        }
+
+        $fileDigest = "${{ inputs.file-digest }}"
+        if (-Not [string]::IsNullOrWhiteSpace($fileDigest)) {
+          $params["FileDigest"] = $fileDigest
+        }
+
+        $timestampRfc3161 = "${{ inputs.timestamp-rfc3161 }}"
+        if (-Not [string]::IsNullOrWhiteSpace($timestampRfc3161)) {
+          $params["TimestampRfc3161"] = $timestampRfc3161
+        }
+
+        $timestampDigest = "${{ inputs.timestamp-digest }}"
+        if (-Not [string]::IsNullOrWhiteSpace($timestampDigest)) {
+          $params["TimestampDigest"] = $timestampDigest
+        }
+
+        $appendSignature = "${{ inputs.append-signature }}"
+        if (-Not [string]::IsNullOrWhiteSpace($appendSignature)) {
+          $params["AppendSignature"] = [System.Convert]::ToBoolean($appendSignature)
+        }
+
+        $description = "${{ inputs.description }}"
+        if (-Not [string]::IsNullOrWhiteSpace($description)) {
+          $params["Description"] = $description
+        }
+
+        $descriptionUrl = "${{ inputs.description-url }}"
+        if (-Not [string]::IsNullOrWhiteSpace($descriptionUrl)) {
+          $params["DescriptionUrl"] = $descriptionUrl
+        }
+
+        $generateDigestPath = "${{ inputs.generate-digest-path }}"
+        if (-Not [string]::IsNullOrWhiteSpace($generateDigestPath)) {
+          $params["GenerateDigestPath"] = $generateDigestPath
+        }
+
+        $generateDigestXml = "${{ inputs.generateDigestXml }}"
+        if (-Not [string]::IsNullOrWhiteSpace($generateDigestXml)) {
+          $params["GenerateDigestXml"] = [System.Convert]::ToBoolean($generateDigestXml)
+        }
+
+        $ingestDigestPath = "${{ inputs.ingest-digest-path }}"
+        if (-Not [string]::IsNullOrWhiteSpace($ingestDigestPath)) {
+          $params["IngestDigestPath"] = $ingestDigestPath
+        }
+
+        $signDigest = "${{ inputs.sign-digest }}"
+        if (-Not [string]::IsNullOrWhiteSpace($signDigest)) {
+          $params["SignDigest"] = [System.Convert]::ToBoolean($signDigest)
+        }
+
+        $generatePageHashes = "${{ inputs.generate-page-hashes }}"
+        if (-Not [string]::IsNullOrWhiteSpace($generatePageHashes)) {
+          $params["GeneratePageHashes"] = [System.Convert]::ToBoolean($generatePageHashes)
+        }
+
+        $suppressPageHashes = "${{ inputs.suppress-page-hashes }}"
+        if (-Not [string]::IsNullOrWhiteSpace($suppressPageHashes)) {
+          $params["SuppressPageHashes"] = [System.Convert]::ToBoolean($suppressPageHashes)
+        }
+
+        $generatePkcs7 = "${{ inputs.generate-pkcs7 }}"
+        if (-Not [string]::IsNullOrWhiteSpace($generatePkcs7)) {
+          $params["GeneratePkcs7"] = [System.Convert]::ToBoolean($generatePkcs7)
+        }
+
+        $pkcs7Options = "${{ inputs.pkcs7-options }}"
+        if (-Not [string]::IsNullOrWhiteSpace($pkcs7Options)) {
+          $params["Pkcs7Options"] = $pkcs7Options
+        }
+
+        $pkcs7Oid = "${{ inputs.pkcs7-oid }}"
+        if (-Not [string]::IsNullOrWhiteSpace($pkcs7Oid)) {
+          $params["Pkcs7Oid"] = $pkcs7Oid
+        }
+
+        $enhancedKeyUsage = "${{ inputs.enhanced-key-usage }}"
+        if (-Not [string]::IsNullOrWhiteSpace($enhancedKeyUsage)) {
+          $params["EnhancedKeyUsage"] = $enhancedKeyUsage
+        }
+
+        $excludeEnvironmentCredential = "${{ inputs.exclude-environment-credential }}"
+        if (-Not [string]::IsNullOrWhiteSpace($excludeEnvironmentCredential)) {
+          $params["ExcludeEnvironmentCredential"] = [System.Convert]::ToBoolean($excludeEnvironmentCredential)
+        }
+
+        $excludeManagedIdentityCredential = "${{ inputs.exclude-managed-identity-credential }}"
+        if (-Not [string]::IsNullOrWhiteSpace($excludeManagedIdentityCredential)) {
+          $params["ExcludeManagedIdentityCredential"] = [System.Convert]::ToBoolean($excludeManagedIdentityCredential)
+        }
+
+        $excludeSharedTokenCacheCredential = "${{ inputs.exclude-shared-token-cache-credential }}"
+        if (-Not [string]::IsNullOrWhiteSpace($excludeSharedTokenCacheCredential)) {
+          $params["ExcludeSharedTokenCacheCredential"] = [System.Convert]::ToBoolean($excludeSharedTokenCacheCredential)
+        }
+
+        $excludeVisualStudioCredential = "${{ inputs.exclude-visual-studio-credential }}"
+        if (-Not [string]::IsNullOrWhiteSpace($excludeVisualStudioCredential)) {
+          $params["ExcludeVisualStudioCredential"] = [System.Convert]::ToBoolean($excludeVisualStudioCredential)
+        }
+
+        $excludeVisualStudioCodeCredential = "${{ inputs.exclude-visual-studio-code-credential }}"
+        if (-Not [string]::IsNullOrWhiteSpace($excludeVisualStudioCodeCredential)) {
+          $params["ExcludeVisualStudioCodeCredential"] = [System.Convert]::ToBoolean($excludeVisualStudioCodeCredential)
+        }
+
+        $excludeAzureCliCredential = "${{ inputs.exclude-azure-cli-credential }}"
+        if (-Not [string]::IsNullOrWhiteSpace($excludeAzureCliCredential)) {
+          $params["ExcludeAzureCliCredential"] = [System.Convert]::ToBoolean($excludeAzureCliCredential)
+        }
+
+        $excludeAzurePowerShellCredential = "${{ inputs.exclude-azure-powershell-credential }}"
+        if (-Not [string]::IsNullOrWhiteSpace($excludeAzurePowerShellCredential)) {
+          $params["ExcludeAzurePowerShellCredential"] = [System.Convert]::ToBoolean($excludeAzurePowerShellCredential)
+        }
+
+        $excludeInteractiveBrowserCredential = "${{ inputs.exclude-interactive-browser-credential }}"
+        if (-Not [string]::IsNullOrWhiteSpace($excludeInteractiveBrowserCredential)) {
+          $params["ExcludeInteractiveBrowserCredential"] = [System.Convert]::ToBoolean($excludeInteractiveBrowserCredential)
+        }
+
+        $timeout = "${{ inputs.timeout }}"
+        if (-Not [string]::IsNullOrWhiteSpace($timeout)) {
+          $params["Timeout"] = [System.Convert]::ToInt32($timeout)
+        }
+
+        $batchSize = "${{ inputs.batch-size }}"
+        if (-Not [string]::IsNullOrWhiteSpace($batchSize)) {
+          $params["BatchSize"] = [System.Convert]::ToInt32($batchSize)
+        }
+
+        Invoke-AzureCodeSigning @params
+      shell: pwsh
