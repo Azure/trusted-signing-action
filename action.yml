@@ -65,9 +65,11 @@ inputs:
   timestamp-rfc3161:
     description: A URL to an RFC3161 compliant timestamping service.
     required: false
+    default: 'http://timestamp.acs.microsoft.com'
   timestamp-digest:
     description: The name of the digest algorithm used for timestamping.
     required: false
+    default: 'SHA256'
   append-signature:
     description: A boolean value (true/false) that indicates if the signature should be appended. If
                  no primary signature is present, this signature is made the primary signature instead.
