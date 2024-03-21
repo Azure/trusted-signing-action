@@ -226,6 +226,13 @@ batch-size: 10000
 ```
 
 ## Best Practices
+### Timestamping
+The files must be signed with timestamping enabled in order for the signatures to be valid for longer than 3 days. It is recommended to use the Trusted Signing timestamp server:
+```yaml
+timestamp-rfc3161: 'http://timestamp.acs.microsoft.com'
+timestamp-digest: 'SHA256'
+```
+
 ### Server Selection
 There is currently a known issue with the WUS region where ~10% of signing requests will be very slow (up to 100 seconds to sign a single file). This may cause significant slow downs and possibly timeout failures during runs. It is suggested to use the EUS region when possible:
 
