@@ -1,5 +1,5 @@
-# Azure Code Signing
-The Azure Code Signing Action allows you to digitally sign your files using an Azure Code Signing certificate during a GitHub Actions run.
+# Trusted Signing
+The Trusted Signing Action allows you to digitally sign your files using a Trusted Signing certificate during a GitHub Actions run.
 
 ## Runner Requirements
 This Action can only be executed on Windows runners. It is supported by the following GitHub hosted runners:
@@ -22,7 +22,7 @@ on:
 jobs:
   build-and-sign:
     runs-on: windows-latest
-    name: Build app and sign files with Azure Code Signing
+    name: Build app and sign files with Trusted Signing
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -38,8 +38,8 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore WpfApp
 
-      - name: Sign files with Azure Code Signing
-        uses: azure/azure-code-signing-action@v0.3.0
+      - name: Sign files with Trusted Signing
+        uses: azure/trusted-signing-action@v0.3.0
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -171,7 +171,7 @@ append-signature: true
 description: My signed content.
 
 # A Uniform Resource Locator (URL) for the expanded description of the signed content.
-description-url: https://github.com/azure/azure-code-signing-action
+description-url: https://github.com/azure/trusted-signing-action
 ```
 
 ### Digest
@@ -218,7 +218,7 @@ enhanced-key-usage: 1.3.6.1.5.5.7.3.3
 
 ### Miscellaneous
 ```yaml
-# The number of seconds that the Azure Code Signing service will wait for all files to be signed before it exits. The default value is 300 seconds.
+# The number of seconds that the Trusted Signing service will wait for all files to be signed before it exits. The default value is 300 seconds.
 timeout: 600
 
 # The summed length of file paths that can be signed with each signtool call. This parameter should only be relevant if you are signing a large number of files. Increasing the value may result in performance gains at the risk of potentially hitting your system's maximum command length limit. The minimum value is 0 and the maximum value is 30000. A value of 0 means that every file will be signed with an individual call to signtool.
@@ -233,12 +233,12 @@ There is currently a known issue with the WUS region where ~10% of signing reque
 endpoint: https://eus.codesigning.azure.net/
 ```
 
-The Azure Code Signing team is currently working with Azure to solve this problem.
+The Trusted Signing team is currently working with Azure to solve this problem.
 
 ### Authentication
 This Action performs authentication using [DefaultAzureCredential](https://learn.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet) which attempts a series of authentication methods in order. If one method fails, it will attempt the next one until authentication is successful.
 
-Each authentication method can be [disabled individually](https://github.com/Azure/azure-code-signing-action#exclude-credentials) so that no time is wasted attempting to authenticate with methods that will never pass.
+Each authentication method can be [disabled individually](https://github.com/Azure/trusted-signing-action#exclude-credentials) so that no time is wasted attempting to authenticate with methods that will never pass.
 
 For example, when authenticating with [EnvironmentCredential](https://learn.microsoft.com/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet) specifically, disable the other credentials with the following inputs:
 ```yaml

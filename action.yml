@@ -1,5 +1,5 @@
-name: 'Azure Code Signing'
-description: 'Sign your files with Azure Code Signing.'
+name: 'Trusted Signing'
+description: 'Sign your files with Trusted Signing.'
 inputs:
   azure-tenant-id:
     description: The Azure Active Directory tenant (directory) ID.
@@ -150,7 +150,7 @@ inputs:
     required: false
     default: 'true'
   timeout:
-    description: The number of seconds that the Azure Code Signing service will wait for all files
+    description: The number of seconds that the Trusted Signing service will wait for all files
                  to be signed before it exits. The default value is 300 seconds.
     required: false
   batch-size:

@@ -6,7 +6,7 @@ This project uses GitHub Issues to track bugs and feature requests. Please searc
 issues before filing new issues to avoid duplicates.  For new issues, file your bug or 
 feature request as a new Issue.
 
-For help and questions about using this project, please file an [issue](https://github.com/Azure/azure-code-signing-action/issues).
+For help and questions about using this project, please file an [issue](https://github.com/Azure/trusted-signing-action/issues).
 
 ## Microsoft Support Policy  
 
