@@ -350,5 +350,5 @@ runs:
           $params["BatchSize"] = [System.Convert]::ToInt32($batchSize)
         }
 
-        Invoke-AzureCodeSigning @params
+        Invoke-TrustedSigning @params
       shell: pwsh
