@@ -132,7 +132,7 @@ files-folder-filter: dll,exe,msix
 # A boolean value (true/false) that indicates if the folder specified by the files-folder input should be searched recursively. The default value is false.
 files-folder-recurse: true
 
-# An integer value that indicates the depth of the recursive search toggled by the files-folder-recurse input.
+# An integer value that indicates the depth of the recursive search toggled by the files-folder-recurse input. By default there is no limit to the depth of the search.
 files-folder-depth: 2
 ```
 
