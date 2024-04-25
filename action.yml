@@ -62,6 +62,7 @@ inputs:
   file-digest:
     description: The name of the digest algorithm used for hashing the files being signed (e.g. SHA256).
     required: false
+    default: 'SHA256'
   timestamp-rfc3161:
     description: A URL to an RFC3161 compliant timestamping service.
     required: false
