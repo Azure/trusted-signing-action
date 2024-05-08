@@ -27,13 +27,16 @@ inputs:
                  accounts with MFA enabled.
     required: false
   endpoint:
-    description: The Code Signing Account endpoint. The URI value must have a URI that aligns to the
-                 region your Code Signing Account and Certificate Profile you are specifying were created
+    description: The Trusted Signing Account endpoint. The URI value must have a URI that aligns to the
+                 region your Trusted Signing Account and Certificate Profile you are specifying were created
                  in during the setup of these resources.
     required: true
   code-signing-account-name:
     description: The Code Signing Account name.
-    required: true
+    required: false
+  trusted-signing-account-name:
+    description: The Trusted Signing Account name.
+    required: false
   certificate-profile-name:
     description: The Certificate Profile name.
     required: true
@@ -186,10 +189,16 @@ runs:
           $params["Endpoint"] = $endpoint
         }
 
-        $codeSigningAccountName = "${{ inputs.code-signing-account-name }}"
-        if (-Not [string]::IsNullOrWhiteSpace($codeSigningAccountName)) {
-          $params["CodeSigningAccountName"] = $codeSigningAccountName
+        $trustedSigningAccountName = "${{ inputs.trusted-signing-account-name }}"
+        if ([string]::IsNullOrWhiteSpace($trustedSigningAccountName)) {
+          $trustedSigningAccountName = "${{ inputs.code-signing-account-name }}"
+          if (-Not [string]::IsNullOrWhiteSpace($trustedSigningAccountName)) {
+            Write-Warning "The 'code-signing-account-name' input is deprecated. Please use 'trusted-signing-account-name' instead."
+          } else {
+            throw "The 'trusted-signing-account-name' input is required."
+          }
         }
+        $params["CodeSigningAccountName"] = $trustedSigningAccountName
 
         $certificateProfileName = "${{ inputs.certificate-profile-name }}"
         if (-Not [string]::IsNullOrWhiteSpace($certificateProfileName)) {

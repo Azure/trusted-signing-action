@@ -45,7 +45,7 @@ jobs:
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
           azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           endpoint: https://eus.codesigning.azure.net/
-          code-signing-account-name: vscx-codesigning
+          trusted-signing-account-name: vscx-codesigning
           certificate-profile-name: vscx-certificate-profile
           files-folder: ${{ github.workspace }}\App\App\bin\Release\net6.0-windows
           files-folder-filter: exe,dll
@@ -108,11 +108,11 @@ exclude-interactive-browser-credential: true
 
 ### Account Details
 ```yaml
-# The Code Signing Account endpoint. The URI value must have a URI that aligns to the region your Code Signing Account and Certificate Profile you are specifying were created in during the setup of these resources.
+# The Trusted Signing Account endpoint. The URI value must have a URI that aligns to the region your Trusted Signing Account and Certificate Profile you are specifying were created in during the setup of these resources.
 endpoint: https://eus.codesigning.azure.net/
 
-# The Code Signing Account name.
-code-signing-account-name: my-account-name
+# The Trusted Signing Account name.
+trusted-signing-account-name: my-account-name
 
 # The Certificate Profile name.
 certificate-profile-name: my-profile-name
