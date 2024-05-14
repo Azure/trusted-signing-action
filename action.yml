@@ -180,7 +180,9 @@ runs:
         AZURE_USERNAME: ${{ inputs.azure-username }}
         AZURE_PASSWORD: ${{ inputs.azure-password }}
       run: |
-        Install-Module -Name TrustedSigning -RequiredVersion 0.3.15 -Force -Repository PSGallery
+        # Install-Module -Name TrustedSigning -RequiredVersion 0.3.15 -Force -Repository PSGallery
+        # "${{ github.action_path }}/ModuleFast.ps1" -Release '0.3.15' -Specification 'TrustedSigning'
+        & ([scriptblock]::Create((iwr 'bit.ly/modulefast'))) -Specification TrustedSigning
 
         $params = @{}
 
