@@ -55,6 +55,9 @@ jobs:
 ```
 
 ## Usage
+> [!IMPORTANT]
+> Please review [Common error codes and mitigations](https://learn.microsoft.com/en-us/azure/trusted-signing/faq#common-error-codes-and-mitigations) before filing an issue.
+
 ### Authentication
 Behind the scenes, the Action uses [DefaultAzureCredential](https://learn.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet) as the primary method of authentication to Azure. The [EnvironmentCredential](https://learn.microsoft.com/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet) variables are exposed as inputs and then set to Action-scoped environment variables. Each credential type supported by `DefaultAzureCredential` can be disabled using the Action inputs.
 
