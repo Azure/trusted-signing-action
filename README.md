@@ -262,12 +262,14 @@ Each authentication method can be [disabled individually](https://github.com/Azu
 For example, when authenticating with [EnvironmentCredential](https://learn.microsoft.com/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet) specifically, disable the other credentials with the following inputs:
 ```yaml
 exclude-environment-credential: false
+exclude-workload-identity-credential: true
 exclude-managed-identity-credential: true
 exclude-shared-token-cache-credential: true
 exclude-visual-studio-credential: true
 exclude-visual-studio-code-credential: true
 exclude-azure-cli-credential: true
 exclude-azure-powershell-credential: true
+exclude-azure-developer-cli-credential: true
 exclude-interactive-browser-credential: true
 ```
 
