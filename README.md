@@ -90,6 +90,9 @@ azure-password: ${{ secrets.AZURE_PASSWORD }}
 # Exclude the "EnvironmentCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
 exclude-environment-credential: false
 
+# Exclude the "WorkloadIdentity" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
+exclude-workload-identity-credential: false
+
 # Exclude the "ManagedIdentity" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
 exclude-managed-identity-credential: false
 
@@ -107,6 +110,9 @@ exclude-azure-cli-credential: false
 
 # Exclude the "AzurePowerShellCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
 exclude-azure-powershell-credential: false
+
+# Exclude the "AzureDeveloperCliCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
+exclude-azure-developer-cli-credential: false
 
 # Exclude the "InteractiveBrowserCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is true.
 exclude-interactive-browser-credential: true
