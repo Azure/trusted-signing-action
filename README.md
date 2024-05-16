@@ -90,6 +90,9 @@ azure-password: ${{ secrets.AZURE_PASSWORD }}
 # Exclude the "EnvironmentCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
 exclude-environment-credential: false
 
+# Exclude the "WorkloadIdentity" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
+exclude-workload-identity-credential: false
+
 # Exclude the "ManagedIdentity" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
 exclude-managed-identity-credential: false
 
@@ -107,6 +110,9 @@ exclude-azure-cli-credential: false
 
 # Exclude the "AzurePowerShellCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
 exclude-azure-powershell-credential: false
+
+# Exclude the "AzureDeveloperCliCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
+exclude-azure-developer-cli-credential: false
 
 # Exclude the "InteractiveBrowserCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is true.
 exclude-interactive-browser-credential: true
@@ -256,12 +262,14 @@ Each authentication method can be [disabled individually](https://github.com/Azu
 For example, when authenticating with [EnvironmentCredential](https://learn.microsoft.com/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet) specifically, disable the other credentials with the following inputs:
 ```yaml
 exclude-environment-credential: false
+exclude-workload-identity-credential: true
 exclude-managed-identity-credential: true
 exclude-shared-token-cache-credential: true
 exclude-visual-studio-credential: true
 exclude-visual-studio-code-credential: true
 exclude-azure-cli-credential: true
 exclude-azure-powershell-credential: true
+exclude-azure-developer-cli-credential: true
 exclude-interactive-browser-credential: true
 ```
 

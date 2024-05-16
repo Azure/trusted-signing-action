@@ -133,6 +133,9 @@ inputs:
   exclude-environment-credential:
     description: Exclude the "EnvironmentCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
+  exclude-workload-identity-credential:
+    description: Exclude the "WorkloadIdentityCredential" type from being considered when authenticating with "DefaultAzureCredential".
+    required: false
   exclude-managed-identity-credential:
     description: Exclude the "ManagedIdentity" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
@@ -150,6 +153,9 @@ inputs:
     required: false
   exclude-azure-powershell-credential:
     description: Exclude the "AzurePowerShellCredential" type from being considered when authenticating with "DefaultAzureCredential".
+    required: false
+  exclude-azure-developer-cli-credential:
+    description: Exclude the "AzureDeveloperCliCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
   exclude-interactive-browser-credential:
     description: Exclude the "InteractiveBrowserCredential" type from being considered when authenticating with "DefaultAzureCredential".
@@ -180,7 +186,7 @@ runs:
         AZURE_USERNAME: ${{ inputs.azure-username }}
         AZURE_PASSWORD: ${{ inputs.azure-password }}
       run: |
-        Install-Module -Name TrustedSigning -RequiredVersion 0.3.15 -Force -Repository PSGallery
+        Install-Module -Name TrustedSigning -RequiredVersion 0.3.18 -Force -Repository PSGallery
 
         $params = @{}
 
@@ -315,6 +321,11 @@ runs:
           $params["ExcludeEnvironmentCredential"] = [System.Convert]::ToBoolean($excludeEnvironmentCredential)
         }
 
+        $excludeWorkloadIdentityCredential = "${{ inputs.exclude-workload-identity-credential }}"
+        if (-Not [string]::IsNullOrWhiteSpace($excludeWorkloadIdentityCredential)) {
+          $params["ExcludeWorkloadIdentityCredential"] = [System.Convert]::ToBoolean($excludeWorkloadIdentityCredential)
+        }
+
         $excludeManagedIdentityCredential = "${{ inputs.exclude-managed-identity-credential }}"
         if (-Not [string]::IsNullOrWhiteSpace($excludeManagedIdentityCredential)) {
           $params["ExcludeManagedIdentityCredential"] = [System.Convert]::ToBoolean($excludeManagedIdentityCredential)
@@ -343,6 +354,11 @@ runs:
         $excludeAzurePowerShellCredential = "${{ inputs.exclude-azure-powershell-credential }}"
         if (-Not [string]::IsNullOrWhiteSpace($excludeAzurePowerShellCredential)) {
           $params["ExcludeAzurePowerShellCredential"] = [System.Convert]::ToBoolean($excludeAzurePowerShellCredential)
+        }
+
+        $excludeAzureDeveloperCliCredential = "${{ inputs.exclude-azure-developer-cli-credential }}"
+        if (-Not [string]::IsNullOrWhiteSpace($excludeAzureDeveloperCliCredential)) {
+          $params["ExcludeAzureDeveloperCliCredential"] = [System.Convert]::ToBoolean($excludeAzureDeveloperCliCredential)
         }
 
         $excludeInteractiveBrowserCredential = "${{ inputs.exclude-interactive-browser-credential }}"
