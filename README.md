@@ -275,6 +275,29 @@ exclude-interactive-browser-credential: true
 
 This can make the Action fail faster if for some reason the [EnvironmentCredential](https://learn.microsoft.com/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet) fails. Similarly, if using for example an [AzureCliCredential ](https://learn.microsoft.com/dotnet/api/azure.identity.azureclicredential?view=azure-dotnet), then we want to skip over attempting to authenticate with the several methods that come before it in order.
 
+### Self-Hosted Agents
+When running the Trusted Signing Action on a self-hosted agent/private runner you may encounter the following error:
+
+`Exception calling "ShouldContinue" with "2" argument(s): "Windows PowerShell is in NonInteractive mode. Read and Prompt functionality is not available."`
+
+This error is caused by the PowerShell NuGet package provider not being installed. By default, Windows PowerShell does not have these components installed.
+
+To resolve this issue, install the NuGet package provider on the agent/runner with the following script:
+
+```yaml
+if ((Get-PackageProvider -Name NuGet -ErrorAction Ignore) -eq $Null) {
+    Install-PackageProvider -Name NuGet -Force -Scope CurrentUser;
+}
+```
+
+Additionally, consider installing the latest version of PowerShellGet with the following script:
+
+```yaml
+if ((Get-InstalledModule -Name PowerShellGet -MinimumVersion 2.2.1 -ErrorAction Ignore) -eq $Null) {
+    Install-Module -Name PowerShellGet -MinimumVersion 2.2.1 -Scope CurrentUser -Force -AllowClobber;
+}
+```
+
 ## Contributing
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
