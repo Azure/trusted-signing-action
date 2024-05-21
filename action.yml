@@ -176,9 +176,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout
-      uses: actions/checkout@v4.1.6
-
     - name: Invoke signing
       env:
         AZURE_TENANT_ID: ${{ inputs.azure-tenant-id }}
@@ -189,8 +186,8 @@ runs:
         AZURE_USERNAME: ${{ inputs.azure-username }}
         AZURE_PASSWORD: ${{ inputs.azure-password }}
       run: |
-        $modulePath = "${{ github.workspace }}/trusted-signing-module-0.3.18.zip"
-        $installPath = "${{ github.workspace }}/TrustedSigning"
+        $modulePath = "${{ github.action_path }}/trusted-signing-module-0.3.18.zip"
+        $installPath = "${{ github.action_path }}/TrustedSigning"
         Expand-Archive -Path $modulePath -DestinationPath $installPath
         Import-Module -Name $installPath
 
