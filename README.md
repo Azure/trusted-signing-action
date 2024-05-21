@@ -39,7 +39,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore WpfApp
 
       - name: Sign files with Trusted Signing
-        uses: azure/trusted-signing-action@v0.3.17
+        uses: azure/trusted-signing-action@v0.3.19
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}

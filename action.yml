@@ -186,7 +186,10 @@ runs:
         AZURE_USERNAME: ${{ inputs.azure-username }}
         AZURE_PASSWORD: ${{ inputs.azure-password }}
       run: |
-        Install-Module -Name TrustedSigning -RequiredVersion 0.3.18 -Force -Repository PSGallery
+        $modulePath = "${{ github.action_path }}/trusted-signing-module-0.3.18.zip"
+        $installPath = "${{ github.action_path }}/TrustedSigning"
+        Expand-Archive -Path $modulePath -DestinationPath $installPath
+        Import-Module -Name $installPath
 
         $params = @{}
 
