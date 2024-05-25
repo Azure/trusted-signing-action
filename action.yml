@@ -176,6 +176,24 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Cache Microsoft.Windows.SDK.BuildTools NuGet package
+      id: cache-buildtools
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-buildtools
+      with:
+        path: ${{ env.LOCALAPPDATA }}\TrustedSigning\Microsoft.Windows.SDK.BuildTools\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233
+        key: Microsoft.Windows.SDK.BuildTools-10.0.22621.3233
+
+    - name: Cache Microsoft.Trusted.Signing.Client NuGet package
+      id: cache-tsclient
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-tsclient
+      with:
+        path: ${{ env.LOCALAPPDATA }}\TrustedSigning\Microsoft.Trusted.Signing.Client\Microsoft.Trusted.Signing.Client.1.0.53
+        key: Microsoft.Trusted.Signing.Client-1.0.53
+  
     - name: Invoke signing
       env:
         AZURE_TENANT_ID: ${{ inputs.azure-tenant-id }}
