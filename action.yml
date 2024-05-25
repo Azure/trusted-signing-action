@@ -176,6 +176,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: List Environment Variables
+      run: |
+        Get-ChildItem Env: | ForEach-Object { Write-Host "$($_.Name)=$($_.Value)" }
+  
     - name: Cache Microsoft.Windows.SDK.BuildTools NuGet package
       id: cache-buildtools
       uses: actions/cache@v3
