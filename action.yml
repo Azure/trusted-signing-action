@@ -177,6 +177,7 @@ runs:
   using: 'composite'
   steps:
     - name: List Environment Variables
+      shell: 'pwsh'
       run: |
         Get-ChildItem Env: | ForEach-Object { Write-Host "$($_.Name)=$($_.Value)" }
   
