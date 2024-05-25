@@ -176,18 +176,13 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: List Environment Variables
-      shell: 'pwsh'
-      run: |
-        Get-ChildItem Env: | ForEach-Object { Write-Host "$($_.Name)=$($_.Value)" }
-  
     - name: Cache Microsoft.Windows.SDK.BuildTools NuGet package
       id: cache-buildtools
       uses: actions/cache@v3
       env:
         cache-name: cache-buildtools
       with:
-        path: ${{ env.LOCALAPPDATA }}\TrustedSigning\Microsoft.Windows.SDK.BuildTools\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233
+        path: ~\AppData\Local\TrustedSigning\Microsoft.Windows.SDK.BuildTools\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233
         key: Microsoft.Windows.SDK.BuildTools-10.0.22621.3233
 
     - name: Cache Microsoft.Trusted.Signing.Client NuGet package
@@ -196,7 +191,7 @@ runs:
       env:
         cache-name: cache-tsclient
       with:
-        path: ${{ env.LOCALAPPDATA }}\TrustedSigning\Microsoft.Trusted.Signing.Client\Microsoft.Trusted.Signing.Client.1.0.53
+        path: ~\AppData\Local\TrustedSigning\Microsoft.Trusted.Signing.Client\Microsoft.Trusted.Signing.Client.1.0.53
         key: Microsoft.Trusted.Signing.Client-1.0.53
   
     - name: Invoke signing
