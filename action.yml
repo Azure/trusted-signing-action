@@ -178,7 +178,7 @@ runs:
   steps:
     - name: Set $PSModulePath
       id: set-psmodulepath
-      shell: 'pwsh'
+      shell: 'bash'
       run: |
         echo "PSMODULEPATH=$($env:PSModulePath)" >> "$GITHUB_OUTPUT"
 
