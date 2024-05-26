@@ -179,7 +179,7 @@ runs:
     - name: Set $PSModulePath
       shell: 'pwsh'
       run: |
-        echo "::set-env name=psmodulepath::$($env:PSModulePath)"
+        echo "psmodulepath=$($env:PSModulePath)" >> "$GITHUB_ENV"
 
     - name: Cache TrustedSigning PowerShell module
       id: cache-module
@@ -187,7 +187,7 @@ runs:
       env:
         cache-name: cache-module
       with:
-        path: ${{ env.psmodulepath }}\TrustedSigning\0.3.18
+        path: $psmodulepath\TrustedSigning\0.3.18
         key: TrustedSigning-0.3.18
   
     - name: Cache Microsoft.Windows.SDK.BuildTools NuGet package
