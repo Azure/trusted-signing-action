@@ -177,7 +177,9 @@ runs:
   using: 'composite'
   steps:
     - name: Set $PSModulePath
-      run: echo "::set-env name=psmodulepath::$($env:PSModulePath)"
+      shell: 'pwsh'
+      run: |
+        echo "::set-env name=psmodulepath::$($env:PSModulePath)"
 
     - name: Cache TrustedSigning PowerShell module
       id: cache-module
