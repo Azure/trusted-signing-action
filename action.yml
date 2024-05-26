@@ -177,9 +177,10 @@ runs:
   using: 'composite'
   steps:
     - name: Set $PSModulePath
+      id: set-psmodulepath
       shell: 'pwsh'
       run: |
-        echo "psmodulepath=$($env:PSModulePath)" >> "$GITHUB_ENV"
+        echo "PSMODULEPATH=$($env:PSModulePath)" >> "$GITHUB_OUTPUT"
 
     - name: Cache TrustedSigning PowerShell module
       id: cache-module
@@ -187,7 +188,7 @@ runs:
       env:
         cache-name: cache-module
       with:
-        path: $psmodulepath\TrustedSigning\0.3.18
+        path: ${{ steps.set-psmodulepath.outputs.PSMODULEPATH }}\TrustedSigning\0.3.18
         key: TrustedSigning-0.3.18
   
     - name: Cache Microsoft.Windows.SDK.BuildTools NuGet package
