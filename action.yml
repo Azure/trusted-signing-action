@@ -176,6 +176,18 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Set $PSModulePath
+      run: echo "::set-env name=psmodulepath::$($env:PSModulePath)"
+
+    - name: Cache TrustedSigning PowerShell module
+      id: cache-module
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-module
+      with:
+        path: ${{ env.psmodulepath }}\TrustedSigning\0.3.18
+        key: TrustedSigning-0.3.18
+  
     - name: Cache Microsoft.Windows.SDK.BuildTools NuGet package
       id: cache-buildtools
       uses: actions/cache@v3
@@ -193,6 +205,11 @@ runs:
       with:
         path: ~\AppData\Local\TrustedSigning\Microsoft.Trusted.Signing.Client\Microsoft.Trusted.Signing.Client.1.0.53
         key: Microsoft.Trusted.Signing.Client-1.0.53
+
+    - name: Install Trusted Signing module
+      shell: 'pwsh'
+      run: |
+        Install-Module -Name TrustedSigning -RequiredVersion 0.3.18 -Force -Repository PSGallery
   
     - name: Invoke signing
       env:
@@ -204,11 +221,6 @@ runs:
         AZURE_USERNAME: ${{ inputs.azure-username }}
         AZURE_PASSWORD: ${{ inputs.azure-password }}
       run: |
-        $modulePath = "${{ github.action_path }}/trusted-signing-module-0.3.18.zip"
-        $installPath = "${{ github.action_path }}/TrustedSigning"
-        Expand-Archive -Path $modulePath -DestinationPath $installPath
-        Import-Module -Name $installPath
-
         $params = @{}
 
         $endpoint = "${{ inputs.endpoint }}"
