@@ -178,9 +178,9 @@ runs:
   steps:
     - name: Set $PSModulePath
       id: set-psmodulepath
-      shell: 'bash'
+      shell: 'pwsh'
       run: |
-        echo "PSMODULEPATH=$($env:PSModulePath)" >> "$GITHUB_OUTPUT"
+        "PSMODULEPATH=$($env:PSModulePath)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
     - name: Cache TrustedSigning PowerShell module
       id: cache-module
