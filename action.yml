@@ -173,7 +173,11 @@ inputs:
                  0 means that every file will be signed with an individual call to signtool.
     required: false
   cache-dependencies:
-    description:
+    description: A boolean value (true/false) that indicates if the dependencies for this action should be
+                 cached by GitHub or not. When using self-hosted runners, caches from workflow runs are stored
+                 on GitHub-owned cloud storage. A customer-owned storage solution is only available with GitHub
+                 Enterprise Server. When enabled, this option can reduce the duration of the action by at least
+                 1 minute.
     required: false
     default: 'true'
 
