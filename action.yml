@@ -223,7 +223,7 @@ runs:
       run: |
         Install-Module -Name TrustedSigning -RequiredVersion 0.3.18 -Force -Repository PSGallery
       if: ${{ inputs.cache-dependencies != 'true' || steps.cache-module.outputs.cache-hit != 'true' }}
-  
+
     - name: Invoke signing
       env:
         AZURE_TENANT_ID: ${{ inputs.azure-tenant-id }}
