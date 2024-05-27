@@ -172,6 +172,10 @@ inputs:
                  command length limit. The minimum value is 0 and the maximum value is 30000. A value of
                  0 means that every file will be signed with an individual call to signtool.
     required: false
+  cache-dependencies:
+    description:
+    required: false
+    default: 'true'
 
 runs:
   using: 'composite'
@@ -182,6 +186,7 @@ runs:
       run: |
         $defaultPath = $env:PSModulePath -split ';' | Select-Object -First 1
         "PSMODULEPATH=$defaultPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+      if: ${{ inputs.cache-dependencies == 'true' }}
 
     - name: Cache TrustedSigning PowerShell module
       id: cache-module
@@ -191,6 +196,7 @@ runs:
       with:
         path: ${{ steps.set-psmodulepath.outputs.PSMODULEPATH }}\TrustedSigning\0.3.18
         key: TrustedSigning-0.3.18
+      if: ${{ inputs.cache-dependencies == 'true' }}
   
     - name: Cache Microsoft.Windows.SDK.BuildTools NuGet package
       id: cache-buildtools
@@ -200,6 +206,7 @@ runs:
       with:
         path: ~\AppData\Local\TrustedSigning\Microsoft.Windows.SDK.BuildTools\Microsoft.Windows.SDK.BuildTools.10.0.22621.3233
         key: Microsoft.Windows.SDK.BuildTools-10.0.22621.3233
+      if: ${{ inputs.cache-dependencies == 'true' }}
 
     - name: Cache Microsoft.Trusted.Signing.Client NuGet package
       id: cache-tsclient
@@ -209,11 +216,13 @@ runs:
       with:
         path: ~\AppData\Local\TrustedSigning\Microsoft.Trusted.Signing.Client\Microsoft.Trusted.Signing.Client.1.0.53
         key: Microsoft.Trusted.Signing.Client-1.0.53
+      if: ${{ inputs.cache-dependencies == 'true' }}
 
     - name: Install Trusted Signing module
       shell: 'pwsh'
       run: |
         Install-Module -Name TrustedSigning -RequiredVersion 0.3.18 -Force -Repository PSGallery
+      if: ${{ inputs.cache-dependencies != 'true' || steps.cache-module.outputs.cache-hit != 'true' }}
   
     - name: Invoke signing
       env:
