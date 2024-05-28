@@ -63,7 +63,8 @@ inputs:
                  a separate line. Can be combined with the files-folder input.
     required: false
   file-digest:
-    description: The name of the digest algorithm used for hashing the files being signed (e.g. SHA256).
+    description: The name of the digest algorithm used for hashing the files being signed. The supported
+                 values are SHA256, SHA384, and SHA512.
     required: false
     default: 'SHA256'
   timestamp-rfc3161:
@@ -71,7 +72,8 @@ inputs:
     required: false
     default: 'http://timestamp.acs.microsoft.com'
   timestamp-digest:
-    description: The name of the digest algorithm used for timestamping.
+    description: The name of the digest algorithm used for timestamping. The supported values are SHA256,
+                 SHA384, and SHA512.
     required: false
     default: 'SHA256'
   append-signature:
