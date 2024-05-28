@@ -228,7 +228,7 @@ runs:
     - name: Install Trusted Signing module
       shell: 'pwsh'
       run: |
-        Install-Module -Name TrustedSigning -RequiredVersion $TRUSTED_SIGNING_MODULE_VERSION -Force -Repository PSGallery
+        Install-Module -Name TrustedSigning -RequiredVersion ${{ steps.set-variables.outputs.TRUSTED_SIGNING_MODULE_VERSION }} -Force -Repository PSGallery
       if: ${{ inputs.cache-dependencies != 'true' || steps.cache-module.outputs.cache-hit != 'true' }}
 
     - name: Invoke signing
