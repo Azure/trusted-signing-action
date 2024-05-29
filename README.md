@@ -25,12 +25,7 @@ jobs:
     name: Build app and sign files with Trusted Signing
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: 6.0.x
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         run: dotnet restore App
