@@ -153,8 +153,8 @@ files-catalog: ${{ github.workspace }}\catalog.txt
 
 ### Digest Algorithm
 ```yaml
-# The name of the digest algorithm used for hashing the file being signed. The default value is SHA256.
-file-digest: SHA384
+# The name of the digest algorithm used for hashing the file being signed. The supported values are SHA256, SHA384, and SHA512. The default value is SHA256.
+file-digest: SHA256
 ```
 
 ### Timestamping
@@ -162,7 +162,7 @@ file-digest: SHA384
 # A URL to an RFC3161 compliant timestamping service.
 timestamp-rfc3161: http://timestamp.acs.microsoft.com
 
-# The name of the digest algorithm used for timestamping.
+# The name of the digest algorithm used for timestamping. The supported values are SHA256, SHA384, and SHA512.
 timestamp-digest: SHA256
 ```
 
