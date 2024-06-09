@@ -233,6 +233,9 @@ batch-size: 10000
 
 # A boolean value (true/false) that indicates if the dependencies for this action should be cached by GitHub or not. The default value is true. When using self-hosted runners, caches from workflow runs are stored on GitHub-owned cloud storage. A customer-owned storage solution is only available with GitHub Enterprise Server. When enabled, this option can reduce the duration of the action by at least 1 minute. More info: https://docs.github.com/actions/using-workflows/caching-dependencies-to-speed-up-workflows
 cache-dependencies: true
+
+# A boolean value (true/false) that controls trace logging. The default value is false.
+trace: false
 ```
 
 ## Best Practices
