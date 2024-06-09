@@ -182,6 +182,10 @@ inputs:
                  at least 1 minute.
     required: false
     default: 'true'
+  debug:
+    description: abc
+    required: false
+    default: 'false'
 
 runs:
   using: 'composite'
@@ -429,6 +433,11 @@ runs:
         $batchSize = "${{ inputs.batch-size }}"
         if (-Not [string]::IsNullOrWhiteSpace($batchSize)) {
           $params["BatchSize"] = [System.Convert]::ToInt32($batchSize)
+        }
+
+        $debug = "${{ inputs.debug }}"
+        if (-Not [string]::IsNullOrWhiteSpace($debug)) {
+          $params["Debug"] = [System.Convert]::ToBoolean($debug)
         }
 
         Invoke-TrustedSigning @params
