@@ -182,6 +182,10 @@ inputs:
                  at least 1 minute.
     required: false
     default: 'true'
+  trace:
+    description: A boolean value (true/false) that controls trace logging. The default value is false.
+    required: false
+    default: 'false'
 
 runs:
   using: 'composite'
@@ -429,6 +433,13 @@ runs:
         $batchSize = "${{ inputs.batch-size }}"
         if (-Not [string]::IsNullOrWhiteSpace($batchSize)) {
           $params["BatchSize"] = [System.Convert]::ToInt32($batchSize)
+        }
+
+        $trace = "${{ inputs.trace }}"
+        if (-Not [string]::IsNullOrWhiteSpace($trace)) {
+          if ([System.Convert]::ToBoolean($trace)) {
+            Set-PSDebug -Trace 2
+          }
         }
 
         Invoke-TrustedSigning @params

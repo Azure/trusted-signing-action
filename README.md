@@ -34,7 +34,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore WpfApp
 
       - name: Sign files with Trusted Signing
-        uses: azure/trusted-signing-action@v0.3.19
+        uses: azure/trusted-signing-action@v0.3.20
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -233,6 +233,9 @@ batch-size: 10000
 
 # A boolean value (true/false) that indicates if the dependencies for this action should be cached by GitHub or not. The default value is true. When using self-hosted runners, caches from workflow runs are stored on GitHub-owned cloud storage. A customer-owned storage solution is only available with GitHub Enterprise Server. When enabled, this option can reduce the duration of the action by at least 1 minute. More info: https://docs.github.com/actions/using-workflows/caching-dependencies-to-speed-up-workflows
 cache-dependencies: true
+
+# A boolean value (true/false) that controls trace logging. The default value is false.
+trace: false
 ```
 
 ## Best Practices
