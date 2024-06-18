@@ -1,4 +1,6 @@
-<img src="icon.png" alt="Trusted Signing" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
+<p align="center">
+  <img src="icon.png" alt="Trusted Signing" />
+</p>
 
 # Trusted Signing
 The Trusted Signing Action allows you to digitally sign your files using a Trusted Signing certificate during a GitHub Actions run.
