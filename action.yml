@@ -202,7 +202,7 @@ runs:
         $defaultPath = $env:PSModulePath -split ';' | Select-Object -First 1
         "PSMODULEPATH=$defaultPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
-        "TRUSTED_SIGNING_MODULE_VERSION=0.3.18" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "TRUSTED_SIGNING_MODULE_VERSION=0.4.1" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "BUILD_TOOLS_NUGET_VERSION=10.0.22621.3233" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "TRUSTED_SIGNING_NUGET_VERSION=1.0.53" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
