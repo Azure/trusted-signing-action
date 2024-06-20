@@ -34,7 +34,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore WpfApp
 
       - name: Sign files with Trusted Signing
-        uses: azure/trusted-signing-action@v0.3.20
+        uses: azure/trusted-signing-action@v0.4.1
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -42,7 +42,7 @@ jobs:
           endpoint: https://eus.codesigning.azure.net/
           trusted-signing-account-name: vscx-codesigning
           certificate-profile-name: vscx-certificate-profile
-          files-folder: ${{ github.workspace }}\App\App\bin\Release\net6.0-windows
+          files-folder: ${{ github.workspace }}\App\App\bin\Release\net8.0-windows
           files-folder-filter: exe,dll
           file-digest: SHA256
           timestamp-rfc3161: http://timestamp.acs.microsoft.com
