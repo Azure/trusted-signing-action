@@ -133,7 +133,7 @@ This strategy allows you to specify a folder that contains all the files you wan
 # The folder containing files to be signed. Can be combined with the file-catalog input.
 files-folder: ${{ github.workspace }}\App\App\bin\Release\net6.0-windows
 
-# A comma separated list of file extensions that determines which types of files will be signed in the folder specified by the files-folder input. Any file type not included in this list will not be signed. If this input is not used, all files in the folder will be signed.
+# A comma separated list of file extensions that determines which types of files will be signed in the folder specified by the files-folder input. Any file type not included in this list will not be signed. If this input is not used, all files in the folder will be signed. Supports wildcards for matching multiple file names with a pattern.
 files-folder-filter: dll,exe,msix
 
 # A boolean value (true/false) that indicates if the folder specified by the files-folder input should be searched recursively. The default value is false.
@@ -143,12 +143,51 @@ files-folder-recurse: true
 files-folder-depth: 2
 ```
 
+Given the following directory structure:
+```txt
+C:.
+└───files
+        System.dll
+        Foo.Bar.Core.dll
+        Foo.Bar.Utilities.dll
+        Foo.Bar.exe
+        LICENSE.md
+```
+
+Here is an example of inputs that can be used to specify that only the `Foo.Bar.*` files are signed:
+```yaml
+files-folder: ${{ github.workspace }}\files
+files-folder-filter: Foo.Bar.*.dll,*.exe
+files-folder-recurse: false
+files-folder-depth: 1
+```
+
 #### Files Catalog
 This strategy allows you to specify a precise list of files to be signed.
 
 ```yaml
 # A file containing a list of relative paths to the files being signed. The paths should be relative to the location of the catalog file. Each file path should be on a separate line. Can be combined with the files-folder input.
 files-catalog: ${{ github.workspace }}\catalog.txt
+```
+
+Given the following directory structure:
+```txt
+C:.
+│   catalog.txt
+│
+└───files
+        System.dll
+        Foo.Bar.Core.dll
+        Foo.Bar.Utilities.dll
+        Foo.Bar.exe
+        LICENSE.md
+```
+
+Here is an example of a `catalog.txt` file that can be used to specify that only the `Foo.Bar.*` files are signed:
+```txt
+./files/Foo.Bar.Core.dll
+./files/Foo.Bar.Utilities.dll
+./files/Foo.Bar.exe
 ```
 
 ### Digest Algorithm
