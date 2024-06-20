@@ -126,6 +126,14 @@ certificate-profile-name: my-profile-name
 ```
 
 ### File Specification
+#### Files List
+This strategy allows you to specify a comma separated list of files to be signed.
+
+```yaml
+# A comma separated list of absolute paths to the files being signed. Can be combined with the files-folder and file-catalog inputs.
+files: ${{ github.workspace }}\files\app.dll,${{ github.workspace }}\files\app.exe
+```
+
 #### Files Folder
 This strategy allows you to specify a folder that contains all the files you want signed. There are options available for narrowing the focus as well. For example, you can use the `files-folder-filter` input to specify that you only want `exe` files to be signed.
 
