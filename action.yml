@@ -203,7 +203,7 @@ runs:
 
     - name: Cache TrustedSigning PowerShell module
       id: cache-module
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       env:
         cache-name: cache-module
       with:
@@ -213,7 +213,7 @@ runs:
   
     - name: Cache Microsoft.Windows.SDK.BuildTools NuGet package
       id: cache-buildtools
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       env:
         cache-name: cache-buildtools
       with:
@@ -223,7 +223,7 @@ runs:
 
     - name: Cache Microsoft.Trusted.Signing.Client NuGet package
       id: cache-tsclient
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       env:
         cache-name: cache-tsclient
       with:
