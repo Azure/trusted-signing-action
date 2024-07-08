@@ -1,4 +1,4 @@
-<p align="center">
+<p style="text-align: center;">
   <img src="icon.png" alt="Trusted Signing" />
 </p>
 
