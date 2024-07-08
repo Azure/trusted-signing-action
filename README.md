@@ -60,7 +60,7 @@ Please review [Common error codes and mitigations](https://learn.microsoft.com/a
 Behind the scenes, the Action uses [DefaultAzureCredential](https://learn.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet) as the primary method of authentication to Azure. The [EnvironmentCredential](https://learn.microsoft.com/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet) variables are exposed as inputs and then set to Action-scoped environment variables. Each credential type supported by `DefaultAzureCredential` can be disabled using the Action inputs.
 
 > [!NOTE]
-> [Trusted Signing Certificate Profile Signer](https://learn.microsoft.com/azure/trusted-signing/concept-trusted-signing-resources-roles#supported-roles) role is required to successfully sign by using Trusted Signing
+> [Trusted Signing Certificate Profile Signer](https://learn.microsoft.com/azure/trusted-signing/concept-trusted-signing-resources-roles#supported-roles) role is required to successfully sign with Trusted Signing
 
 It is reccomended to use OpenID Connect for authentication with the Trusted Signing service. See [Authenticating with OpenID Connect](docs/OIDC.md) for details on how to configure your GitHub pipeline with OIDC and Federated Credentials.
 
