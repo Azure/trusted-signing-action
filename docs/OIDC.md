@@ -6,14 +6,14 @@ Follow the steps below to authenticate with [Open ID Connect](https://www.micros
 1. [Create GitHub secrets](https://learn.microsoft.com/azure/developer/github/connect-from-azure?tabs=azure-portal%2Cwindows#create-github-secrets)
 
 1. Assign the [Trusted Signing Certificate Profile Signer](https://learn.microsoft.com/azure/trusted-signing/concept-trusted-signing-resources-roles#supported-roles) role to your service principal.
-   - Open your Trusted Signing Account in the Azure portal.
-     - **Note:** You can assign the role from your Resource Group or Subscription if you have multiple Trusted Signing accounts.
-   - Navigate to the Access Control (IAM) tab.
-   - Click 'Add role assignment'.
-   - Select 'Trusted Signing Certificate Profile Signer'.
-   - Next.
-   - Assign access to your 'User, group, or service principal' or 'Managed identity'.
-   - Review + assign.
+   1. Open your Trusted Signing Account in the Azure portal.
+      1. **Note:** You can assign the role from your Resource Group or Subscription if you have multiple Trusted Signing accounts.
+   1. Navigate to the Access Control (IAM) tab.
+   1. Click 'Add role assignment'.
+   1. Select 'Trusted Signing Certificate Profile Signer'.
+   1. Next.
+   1. Assign access to your 'User, group, or service principal' or 'Managed identity'.
+   1. Review + assign.
 
 1. Adapt the following yaml to your GitHub pipeline:
     ```yaml
