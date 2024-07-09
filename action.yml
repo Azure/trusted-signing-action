@@ -277,7 +277,7 @@ runs:
 
         $files = "${{ inputs.files }}"
         if (-Not [string]::IsNullOrWhiteSpace($files)) {
-          $params["Files"] = $files
+          $params["Files"] = $files.replace("`n", ",")
         }
 
         $filesFolder = "${{ inputs.files-folder }}"
