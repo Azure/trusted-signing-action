@@ -135,7 +135,7 @@ files: ${{ github.workspace }}\files\app.dll,${{ github.workspace }}\files\app.e
 ```
 
 #### Files Folder
-This strategy allows you to specify a folder that contains all the files you want signed. There are options available for narrowing the focus as well. For example, you can use the `files-folder-filter` input to specify that you only want `exe` files to be signed.
+This strategy allows you to specify a folder that contains all the files you want signed. There are options available for narrowing the focus as well. For example, you can use the `files-folder-filter` input to specify that you only want `exe` files to be signed. See [about_Wildcards](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_wildcards) for more information on using wildcards with the `files-folder-filter` input.
 
 ```yaml
 # The folder containing files to be signed. Can be combined with the file-catalog input.
