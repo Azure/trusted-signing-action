@@ -40,14 +40,19 @@ inputs:
   certificate-profile-name:
     description: The Certificate Profile name.
     required: true
+  files:
+    description: A comma separated list of absolute paths to the files being signed. Can be combined with
+                 the files-folder and file-catalog inputs.
+    required: false
   files-folder:
-    description: The folder containing files to be signed. Can be combined with the file-catalog input.
+    description: The folder containing files to be signed. Can be combined with the files and file-catalog inputs.
     required: false
   files-folder-filter:
     description: A comma separated list of file extensions that determines which types of files will
                  be signed in the folder specified by the files-folder input. E.g., 'dll,exe,msix'.
                  Any file type not included in this list will not be signed. If this input is not used,
-                 all files in the folder will be signed.
+                 all files in the folder will be signed. Supports wildcards for matching multiple file
+                 names with a pattern.
     required: false
   files-folder-recurse:
     description: A boolean value (true/false) that indicates if the folder specified by the files-folder
@@ -60,7 +65,7 @@ inputs:
   files-catalog:
     description: A file containing a list of relative paths to the files being signed. The paths
                  should be relative to the location of the catalog file. Each file path should be on
-                 a separate line. Can be combined with the files-folder input.
+                 a separate line. Can be combined with the files and files-folder inputs.
     required: false
   file-digest:
     description: The name of the digest algorithm used for hashing the files being signed. The supported
@@ -197,7 +202,7 @@ runs:
         $defaultPath = $env:PSModulePath -split ';' | Select-Object -First 1
         "PSMODULEPATH=$defaultPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
-        "TRUSTED_SIGNING_MODULE_VERSION=0.3.18" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "TRUSTED_SIGNING_MODULE_VERSION=0.4.1" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "BUILD_TOOLS_NUGET_VERSION=10.0.22621.3233" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "TRUSTED_SIGNING_NUGET_VERSION=1.0.53" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
@@ -268,6 +273,11 @@ runs:
         $certificateProfileName = "${{ inputs.certificate-profile-name }}"
         if (-Not [string]::IsNullOrWhiteSpace($certificateProfileName)) {
           $params["CertificateProfileName"] = $certificateProfileName
+        }
+
+        $files = "${{ inputs.files }}"
+        if (-Not [string]::IsNullOrWhiteSpace($files)) {
+          $params["Files"] = $files.replace("`n", ",")
         }
 
         $filesFolder = "${{ inputs.files-folder }}"
