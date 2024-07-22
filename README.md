@@ -298,15 +298,6 @@ timestamp-rfc3161: 'http://timestamp.acs.microsoft.com'
 timestamp-digest: 'SHA256'
 ```
 
-### Server Selection
-There is currently a known issue with the WUS region where ~10% of signing requests will be very slow (up to 100 seconds to sign a single file). This may cause significant slow downs and possibly timeout failures during runs. It is suggested to use the EUS region when possible:
-
-```yaml
-endpoint: https://eus.codesigning.azure.net/
-```
-
-The Trusted Signing team is currently working with Azure to solve this problem.
-
 ### Authentication
 This Action performs authentication using [DefaultAzureCredential](https://learn.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet) which attempts a series of authentication methods in order. If one method fails, it will attempt the next one until authentication is successful.
 
