@@ -135,8 +135,12 @@ certificate-profile-name: my-profile-name
 This strategy allows you to specify a comma separated list of files to be signed.
 
 ```yaml
-# A comma separated list of absolute paths to the files being signed. Can be combined with the files-folder and file-catalog inputs.
+# A comma or newline separated list of absolute paths to the files being signed. Can be combined with the files-folder and file-catalog inputs.
 files: ${{ github.workspace }}\files\app.dll,${{ github.workspace }}\files\app.exe
+
+files: |
+  ${{ github.workspace }}\files\app.dll
+  ${{ github.workspace }}\files\app.exe
 ```
 
 #### Files Folder
