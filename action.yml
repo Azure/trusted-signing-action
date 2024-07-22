@@ -41,8 +41,8 @@ inputs:
     description: The Certificate Profile name.
     required: true
   files:
-    description: A comma separated list of absolute paths to the files being signed. Can be combined with
-                 the files-folder and file-catalog inputs.
+    description: A comma or newline separated list of absolute paths to the files being signed. Can be combined
+                 with the files-folder and file-catalog inputs.
     required: false
   files-folder:
     description: The folder containing files to be signed. Can be combined with the files and file-catalog inputs.
