@@ -13,6 +13,7 @@ Follow the steps below to authenticate with [Open ID Connect](https://www.micros
    1. Select 'Trusted Signing Certificate Profile Signer'.
    1. Next.
    1. Assign access to your 'User, group, or service principal' or 'Managed identity'.
+      1. **Note:** You will need to search for, and select, the service principal you created above. Only users will be listed by default.
    1. Review + assign.
 
 1. Adapt the following yaml to your GitHub pipeline:
