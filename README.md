@@ -38,7 +38,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore WpfApp
 
       - name: Sign files with Trusted Signing
-        uses: azure/trusted-signing-action@v0.4.0
+        uses: azure/trusted-signing-action@v0.5.0
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -279,6 +279,15 @@ pkcs7-oid: 1.3.6.1.5.5.7.3.3
 enhanced-key-usage: 1.3.6.1.5.5.7.3.3
 ```
 
+### ClickOnce
+```yaml
+# The application name for any ClickOnce files being signed.
+clickonce-application-name: My ClickOnce application name.
+
+# The publisher name for any ClickOnce files being signed.
+clickonce-publisher-name: My ClickOnce publisher name.
+```
+
 ### Miscellaneous
 ```yaml
 # The number of seconds that the Trusted Signing service will wait for all files to be signed before it exits. The default value is 300 seconds.
@@ -295,6 +304,36 @@ trace: false
 ```
 
 ## Best Practices
+### ClickOnce
+Generally you will want to sign an entire package and all its contents i.e. the deployment manifest (`.application` or `.vsto`), application manifest (`.exe.manifest` or `.dll.manifest`) and the underlying `.exe` and `.dll` files themselves. To do this, ensure that the entire contents of the package are available (i.e. the whole `publish` folder from your build) and pass the deployment manifest (`.application` or `.vsto`) as the file to sign - the rest of the files will be detected and signed in the proper order automatically.
+
+In the example below, it is only necessary to pass `ClickOnceApp.application` and `setup.exe` to the Trusted Signing Action. The remaining "Application Files" will be signed automatically.
+
+C:\TEST\ASSETS\SAMPLE-FILES\CLICKONCE
+│   ClickOnceApp.application
+│   setup.exe
+└───Application Files
+    └───ClickOnceApp_1_0_0_0
+            ClickOnceApp.deps.json.deploy
+            ClickOnceApp.dll.deploy
+            ClickOnceApp.dll.manifest
+            ClickOnceApp.exe.deploy
+            ClickOnceApp.runtimeconfig.json.deploy
+            Launcher.exe.deploy
+
+The following inputs are ignored when signing ClickOnce files:
+- `append-signature`
+- `generate-digest-path`
+- `generate-digest-xml`
+- `ingest-digest-path`
+- `sign-digest`
+- `generate-page-hashes`
+- `suppress-page-hashes`
+- `generate-pkcs7`
+- `pkcs7-options`
+- `pkcs7-oid`
+- `enhanced-key-usage`
+
 ### Timestamping
 The files must be signed with timestamping enabled in order for the signatures to be valid for longer than 3 days. It is recommended to use the Trusted Signing timestamp server:
 ```yaml
