@@ -309,6 +309,7 @@ Generally you will want to sign an entire package and all its contents i.e. the 
 
 In the example below, it is only necessary to pass `ClickOnceApp.application` and `setup.exe` to the Trusted Signing Action. The remaining "Application Files" will be signed automatically.
 
+```txt
 C:\TEST\ASSETS\SAMPLE-FILES\CLICKONCE
 │   ClickOnceApp.application
 │   setup.exe
@@ -320,6 +321,7 @@ C:\TEST\ASSETS\SAMPLE-FILES\CLICKONCE
             ClickOnceApp.exe.deploy
             ClickOnceApp.runtimeconfig.json.deploy
             Launcher.exe.deploy
+```
 
 The following inputs are ignored when signing ClickOnce files:
 - `append-signature`
