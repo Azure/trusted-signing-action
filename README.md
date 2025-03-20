@@ -13,7 +13,7 @@ This Action can only be executed on Windows runners. It is supported by the foll
 It is also possible to use self-hosted runners with the following requirements:
 - Windows 7+
 - PowerShell 5.1+
-- .NET runtime 6.0+
+- .NET runtime 8.0+
 
 ## Example
 The example below shows how to sign the build output of a simple Wpf application.
