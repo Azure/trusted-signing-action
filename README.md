@@ -301,6 +301,9 @@ cache-dependencies: true
 
 # A boolean value (true/false) that controls trace logging. The default value is false.
 trace: false
+
+# A unique identifier for the signing request. This value is used to track the signing request in the Trusted Signing service.
+correlation-id: aaaa0000-bb11-2222-33cc-444444dddddd
 ```
 
 ## Best Practices
