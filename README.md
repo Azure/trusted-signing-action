@@ -62,7 +62,7 @@ Behind the scenes, the Action uses [DefaultAzureCredential](https://learn.micros
 > [!NOTE]
 > [Trusted Signing Certificate Profile Signer](https://learn.microsoft.com/azure/trusted-signing/concept-trusted-signing-resources-roles#supported-roles) role is required to successfully sign with Trusted Signing
 
-It is reccomended to use OpenID Connect for authentication with the Trusted Signing service. See [Authenticating with OpenID Connect](docs/OIDC.md) for details on how to configure your GitHub pipeline with OIDC and Federated Credentials.
+It is recommended to use OpenID Connect for authentication with the Trusted Signing service. See [Authenticating with OpenID Connect](docs/OIDC.md) for details on how to configure your GitHub pipeline with OIDC and Federated Credentials.
 
 #### App Registration
 ```yaml
