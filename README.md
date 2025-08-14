@@ -7,6 +7,7 @@ The Trusted Signing Action allows you to digitally sign your files using a Trust
 
 ## Runner Requirements
 This Action can only be executed on Windows runners. It is supported by the following GitHub hosted runners:
+- [windows-2025](https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-Readme.md)
 - [windows-2022](https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md)
 - [windows-2019](https://github.com/actions/runner-images/blob/main/images/windows/Windows2019-Readme.md)
 
