@@ -272,17 +272,61 @@ runs:
         AZURE_CLIENT_SEND_CERTIFICATE_CHAIN: ${{ inputs.azure-client-send-certificate-chain }}
         AZURE_USERNAME: ${{ inputs.azure-username }}
         AZURE_PASSWORD: ${{ inputs.azure-password }}
+        INPUT_ENDPOINT: ${{ inputs.endpoint }}
+        INPUT_TRUSTED_SIGNING_ACCOUNT_NAME: ${{ inputs.trusted-signing-account-name }}
+        INPUT_CODE_SIGNING_ACCOUNT_NAME: ${{ inputs.code-signing-account-name }}
+        INPUT_CERTIFICATE_PROFILE_NAME: ${{ inputs.certificate-profile-name }}
+        INPUT_FILES: ${{ inputs.files }}
+        INPUT_FILES_FOLDER: ${{ inputs.files-folder }}
+        INPUT_FILES_FOLDER_FILTER: ${{ inputs.files-folder-filter }}
+        INPUT_FILES_FOLDER_RECURSE: ${{ inputs.files-folder-recurse }}
+        INPUT_FILES_FOLDER_DEPTH: ${{ inputs.files-folder-depth }}
+        INPUT_FILES_CATALOG: ${{ inputs.files-catalog }}
+        INPUT_FILE_DIGEST: ${{ inputs.file-digest }}
+        INPUT_TIMESTAMP_RFC3161: ${{ inputs.timestamp-rfc3161 }}
+        INPUT_TIMESTAMP_DIGEST: ${{ inputs.timestamp-digest }}
+        INPUT_APPEND_SIGNATURE: ${{ inputs.append-signature }}
+        INPUT_DESCRIPTION: ${{ inputs.description }}
+        INPUT_DESCRIPTION_URL: ${{ inputs.description-url }}
+        INPUT_GENERATE_DIGEST_PATH: ${{ inputs.generate-digest-path }}
+        INPUT_GENERATE_DIGEST_XML: ${{ inputs.generate-digest-xml }}
+        INPUT_INGEST_DIGEST_PATH: ${{ inputs.ingest-digest-path }}
+        INPUT_SIGN_DIGEST: ${{ inputs.sign-digest }}
+        INPUT_GENERATE_PAGE_HASHES: ${{ inputs.generate-page-hashes }}
+        INPUT_SUPPRESS_PAGE_HASHES: ${{ inputs.suppress-page-hashes }}
+        INPUT_GENERATE_PKCS7: ${{ inputs.generate-pkcs7 }}
+        INPUT_PKCS7_OPTIONS: ${{ inputs.pkcs7-options }}
+        INPUT_PKCS7_OID: ${{ inputs.pkcs7-oid }}
+        INPUT_ENHANCED_KEY_USAGE: ${{ inputs.enhanced-key-usage }}
+        INPUT_EXCLUDE_ENVIRONMENT_CREDENTIAL: ${{ inputs.exclude-environment-credential }}
+        INPUT_EXCLUDE_WORKLOAD_IDENTITY_CREDENTIAL: ${{ inputs.exclude-workload-identity-credential }}
+        INPUT_EXCLUDE_MANAGED_IDENTITY_CREDENTIAL: ${{ inputs.exclude-managed-identity-credential }}
+        INPUT_EXCLUDE_SHARED_TOKEN_CACHE_CREDENTIAL: ${{ inputs.exclude-shared-token-cache-credential }}
+        INPUT_EXCLUDE_VISUAL_STUDIO_CREDENTIAL: ${{ inputs.exclude-visual-studio-credential }}
+        INPUT_EXCLUDE_VISUAL_STUDIO_CODE_CREDENTIAL: ${{ inputs.exclude-visual-studio-code-credential }}
+        INPUT_EXCLUDE_AZURE_CLI_CREDENTIAL: ${{ inputs.exclude-azure-cli-credential }}
+        INPUT_EXCLUDE_AZURE_POWERSHELL_CREDENTIAL: ${{ inputs.exclude-azure-powershell-credential }}
+        INPUT_EXCLUDE_AZURE_DEVELOPER_CLI_CREDENTIAL: ${{ inputs.exclude-azure-developer-cli-credential }}
+        INPUT_EXCLUDE_INTERACTIVE_BROWSER_CREDENTIAL: ${{ inputs.exclude-interactive-browser-credential }}
+        INPUT_TIMEOUT: ${{ inputs.timeout }}
+        INPUT_BATCH_SIZE: ${{ inputs.batch-size }}
+        INPUT_TRACE: ${{ inputs.trace }}
+        INPUT_CLICKONCE_APPLICATION_NAME: ${{ inputs.clickonce-application-name }}
+        INPUT_CLICKONCE_PUBLISHER_NAME: ${{ inputs.clickonce-publisher-name }}
       run: |
         $params = @{}
 
-        $endpoint = "${{ inputs.endpoint }}"
+        $endpoint = $env:INPUT_ENDPOINT
+        if ([string]::IsNullOrWhiteSpace($endpoint)) {
+          throw "The 'endpoint' input is required."
+        }
         if (-Not [string]::IsNullOrWhiteSpace($endpoint)) {
           $params["Endpoint"] = $endpoint
         }
 
-        $trustedSigningAccountName = "${{ inputs.trusted-signing-account-name }}"
+        $trustedSigningAccountName = $env:INPUT_TRUSTED_SIGNING_ACCOUNT_NAME
         if ([string]::IsNullOrWhiteSpace($trustedSigningAccountName)) {
-          $trustedSigningAccountName = "${{ inputs.code-signing-account-name }}"
+          $trustedSigningAccountName = $env:INPUT_CODE_SIGNING_ACCOUNT_NAME
           if (-Not [string]::IsNullOrWhiteSpace($trustedSigningAccountName)) {
             Write-Warning "The 'code-signing-account-name' input is deprecated. Please use 'trusted-signing-account-name' instead."
           } else {
@@ -291,194 +335,194 @@ runs:
         }
         $params["CodeSigningAccountName"] = $trustedSigningAccountName
 
-        $certificateProfileName = "${{ inputs.certificate-profile-name }}"
+        $certificateProfileName = $env:INPUT_CERTIFICATE_PROFILE_NAME
         if (-Not [string]::IsNullOrWhiteSpace($certificateProfileName)) {
           $params["CertificateProfileName"] = $certificateProfileName
         }
 
-        $files = "${{ inputs.files }}"
+        $files = $env:INPUT_FILES
         if (-Not [string]::IsNullOrWhiteSpace($files)) {
           $params["Files"] = $files.replace("`n", ",")
         }
 
-        $filesFolder = "${{ inputs.files-folder }}"
+        $filesFolder = $env:INPUT_FILES_FOLDER
         if (-Not [string]::IsNullOrWhiteSpace($filesFolder)) {
           $params["FilesFolder"] = $filesFolder
         }
 
-        $filesFolderFilter = "${{ inputs.files-folder-filter }}"
+        $filesFolderFilter = $env:INPUT_FILES_FOLDER_FILTER
         if (-Not [string]::IsNullOrWhiteSpace($filesFolderFilter)) {
           $params["FilesFolderFilter"] = $filesFolderFilter
         }
 
-        $filesFolderRecurse = "${{ inputs.files-folder-recurse }}"
+        $filesFolderRecurse = $env:INPUT_FILES_FOLDER_RECURSE
         if (-Not [string]::IsNullOrWhiteSpace($filesFolderRecurse)) {
           $params["FilesFolderRecurse"] = [System.Convert]::ToBoolean($filesFolderRecurse)
         }
 
-        $filesFolderDepth = "${{ inputs.files-folder-depth }}"
+        $filesFolderDepth = $env:INPUT_FILES_FOLDER_DEPTH
         if (-Not [string]::IsNullOrWhiteSpace($filesFolderDepth)) {
           $params["FilesFolderDepth"] = [System.Convert]::ToInt32($filesFolderDepth)
         }
 
-        $filesCatalog = "${{ inputs.files-catalog }}"
+        $filesCatalog = $env:INPUT_FILES_CATALOG
         if (-Not [string]::IsNullOrWhiteSpace($filesCatalog)) {
           $params["FilesCatalog"] = $filesCatalog
         }
 
-        $fileDigest = "${{ inputs.file-digest }}"
+        $fileDigest = $env:INPUT_FILE_DIGEST
         if (-Not [string]::IsNullOrWhiteSpace($fileDigest)) {
           $params["FileDigest"] = $fileDigest
         }
 
-        $timestampRfc3161 = "${{ inputs.timestamp-rfc3161 }}"
+        $timestampRfc3161 = $env:INPUT_TIMESTAMP_RFC3161
         if (-Not [string]::IsNullOrWhiteSpace($timestampRfc3161)) {
           $params["TimestampRfc3161"] = $timestampRfc3161
         }
 
-        $timestampDigest = "${{ inputs.timestamp-digest }}"
+        $timestampDigest = $env:INPUT_TIMESTAMP_DIGEST
         if (-Not [string]::IsNullOrWhiteSpace($timestampDigest)) {
           $params["TimestampDigest"] = $timestampDigest
         }
 
-        $appendSignature = "${{ inputs.append-signature }}"
+        $appendSignature = $env:INPUT_APPEND_SIGNATURE
         if (-Not [string]::IsNullOrWhiteSpace($appendSignature)) {
           $params["AppendSignature"] = [System.Convert]::ToBoolean($appendSignature)
         }
 
-        $description = "${{ inputs.description }}"
+        $description = $env:INPUT_DESCRIPTION
         if (-Not [string]::IsNullOrWhiteSpace($description)) {
           $params["Description"] = $description
         }
 
-        $descriptionUrl = "${{ inputs.description-url }}"
+        $descriptionUrl = $env:INPUT_DESCRIPTION_URL
         if (-Not [string]::IsNullOrWhiteSpace($descriptionUrl)) {
           $params["DescriptionUrl"] = $descriptionUrl
         }
 
-        $generateDigestPath = "${{ inputs.generate-digest-path }}"
+        $generateDigestPath = $env:INPUT_GENERATE_DIGEST_PATH
         if (-Not [string]::IsNullOrWhiteSpace($generateDigestPath)) {
           $params["GenerateDigestPath"] = $generateDigestPath
         }
 
-        $generateDigestXml = "${{ inputs.generateDigestXml }}"
+        $generateDigestXml = $env:INPUT_GENERATE_DIGEST_XML
         if (-Not [string]::IsNullOrWhiteSpace($generateDigestXml)) {
           $params["GenerateDigestXml"] = [System.Convert]::ToBoolean($generateDigestXml)
         }
 
-        $ingestDigestPath = "${{ inputs.ingest-digest-path }}"
+        $ingestDigestPath = $env:INPUT_INGEST_DIGEST_PATH
         if (-Not [string]::IsNullOrWhiteSpace($ingestDigestPath)) {
           $params["IngestDigestPath"] = $ingestDigestPath
         }
 
-        $signDigest = "${{ inputs.sign-digest }}"
+        $signDigest = $env:INPUT_SIGN_DIGEST
         if (-Not [string]::IsNullOrWhiteSpace($signDigest)) {
           $params["SignDigest"] = [System.Convert]::ToBoolean($signDigest)
         }
 
-        $generatePageHashes = "${{ inputs.generate-page-hashes }}"
+        $generatePageHashes = $env:INPUT_GENERATE_PAGE_HASHES
         if (-Not [string]::IsNullOrWhiteSpace($generatePageHashes)) {
           $params["GeneratePageHashes"] = [System.Convert]::ToBoolean($generatePageHashes)
         }
 
-        $suppressPageHashes = "${{ inputs.suppress-page-hashes }}"
+        $suppressPageHashes = $env:INPUT_SUPPRESS_PAGE_HASHES
         if (-Not [string]::IsNullOrWhiteSpace($suppressPageHashes)) {
           $params["SuppressPageHashes"] = [System.Convert]::ToBoolean($suppressPageHashes)
         }
 
-        $generatePkcs7 = "${{ inputs.generate-pkcs7 }}"
+        $generatePkcs7 = $env:INPUT_GENERATE_PKCS7
         if (-Not [string]::IsNullOrWhiteSpace($generatePkcs7)) {
           $params["GeneratePkcs7"] = [System.Convert]::ToBoolean($generatePkcs7)
         }
 
-        $pkcs7Options = "${{ inputs.pkcs7-options }}"
+        $pkcs7Options = $env:INPUT_PKCS7_OPTIONS
         if (-Not [string]::IsNullOrWhiteSpace($pkcs7Options)) {
           $params["Pkcs7Options"] = $pkcs7Options
         }
 
-        $pkcs7Oid = "${{ inputs.pkcs7-oid }}"
+        $pkcs7Oid = $env:INPUT_PKCS7_OID
         if (-Not [string]::IsNullOrWhiteSpace($pkcs7Oid)) {
           $params["Pkcs7Oid"] = $pkcs7Oid
         }
 
-        $enhancedKeyUsage = "${{ inputs.enhanced-key-usage }}"
+        $enhancedKeyUsage = $env:INPUT_ENHANCED_KEY_USAGE
         if (-Not [string]::IsNullOrWhiteSpace($enhancedKeyUsage)) {
           $params["EnhancedKeyUsage"] = $enhancedKeyUsage
         }
 
-        $excludeEnvironmentCredential = "${{ inputs.exclude-environment-credential }}"
+        $excludeEnvironmentCredential = $env:INPUT_EXCLUDE_ENVIRONMENT_CREDENTIAL
         if (-Not [string]::IsNullOrWhiteSpace($excludeEnvironmentCredential)) {
           $params["ExcludeEnvironmentCredential"] = [System.Convert]::ToBoolean($excludeEnvironmentCredential)
         }
 
-        $excludeWorkloadIdentityCredential = "${{ inputs.exclude-workload-identity-credential }}"
+        $excludeWorkloadIdentityCredential = $env:INPUT_EXCLUDE_WORKLOAD_IDENTITY_CREDENTIAL
         if (-Not [string]::IsNullOrWhiteSpace($excludeWorkloadIdentityCredential)) {
           $params["ExcludeWorkloadIdentityCredential"] = [System.Convert]::ToBoolean($excludeWorkloadIdentityCredential)
         }
 
-        $excludeManagedIdentityCredential = "${{ inputs.exclude-managed-identity-credential }}"
+        $excludeManagedIdentityCredential = $env:INPUT_EXCLUDE_MANAGED_IDENTITY_CREDENTIAL
         if (-Not [string]::IsNullOrWhiteSpace($excludeManagedIdentityCredential)) {
           $params["ExcludeManagedIdentityCredential"] = [System.Convert]::ToBoolean($excludeManagedIdentityCredential)
         }
 
-        $excludeSharedTokenCacheCredential = "${{ inputs.exclude-shared-token-cache-credential }}"
+        $excludeSharedTokenCacheCredential = $env:INPUT_EXCLUDE_SHARED_TOKEN_CACHE_CREDENTIAL
         if (-Not [string]::IsNullOrWhiteSpace($excludeSharedTokenCacheCredential)) {
           $params["ExcludeSharedTokenCacheCredential"] = [System.Convert]::ToBoolean($excludeSharedTokenCacheCredential)
         }
 
-        $excludeVisualStudioCredential = "${{ inputs.exclude-visual-studio-credential }}"
+        $excludeVisualStudioCredential = $env:INPUT_EXCLUDE_VISUAL_STUDIO_CREDENTIAL
         if (-Not [string]::IsNullOrWhiteSpace($excludeVisualStudioCredential)) {
           $params["ExcludeVisualStudioCredential"] = [System.Convert]::ToBoolean($excludeVisualStudioCredential)
         }
 
-        $excludeVisualStudioCodeCredential = "${{ inputs.exclude-visual-studio-code-credential }}"
+        $excludeVisualStudioCodeCredential = $env:INPUT_EXCLUDE_VISUAL_STUDIO_CODE_CREDENTIAL
         if (-Not [string]::IsNullOrWhiteSpace($excludeVisualStudioCodeCredential)) {
           $params["ExcludeVisualStudioCodeCredential"] = [System.Convert]::ToBoolean($excludeVisualStudioCodeCredential)
         }
 
-        $excludeAzureCliCredential = "${{ inputs.exclude-azure-cli-credential }}"
+        $excludeAzureCliCredential = $env:INPUT_EXCLUDE_AZURE_CLI_CREDENTIAL
         if (-Not [string]::IsNullOrWhiteSpace($excludeAzureCliCredential)) {
           $params["ExcludeAzureCliCredential"] = [System.Convert]::ToBoolean($excludeAzureCliCredential)
         }
 
-        $excludeAzurePowerShellCredential = "${{ inputs.exclude-azure-powershell-credential }}"
+        $excludeAzurePowerShellCredential = $env:INPUT_EXCLUDE_AZURE_POWERSHELL_CREDENTIAL
         if (-Not [string]::IsNullOrWhiteSpace($excludeAzurePowerShellCredential)) {
           $params["ExcludeAzurePowerShellCredential"] = [System.Convert]::ToBoolean($excludeAzurePowerShellCredential)
         }
 
-        $excludeAzureDeveloperCliCredential = "${{ inputs.exclude-azure-developer-cli-credential }}"
+        $excludeAzureDeveloperCliCredential = $env:INPUT_EXCLUDE_AZURE_DEVELOPER_CLI_CREDENTIAL
         if (-Not [string]::IsNullOrWhiteSpace($excludeAzureDeveloperCliCredential)) {
           $params["ExcludeAzureDeveloperCliCredential"] = [System.Convert]::ToBoolean($excludeAzureDeveloperCliCredential)
         }
 
-        $excludeInteractiveBrowserCredential = "${{ inputs.exclude-interactive-browser-credential }}"
+        $excludeInteractiveBrowserCredential = $env:INPUT_EXCLUDE_INTERACTIVE_BROWSER_CREDENTIAL
         if (-Not [string]::IsNullOrWhiteSpace($excludeInteractiveBrowserCredential)) {
           $params["ExcludeInteractiveBrowserCredential"] = [System.Convert]::ToBoolean($excludeInteractiveBrowserCredential)
         }
 
-        $timeout = "${{ inputs.timeout }}"
+        $timeout = $env:INPUT_TIMEOUT
         if (-Not [string]::IsNullOrWhiteSpace($timeout)) {
           $params["Timeout"] = [System.Convert]::ToInt32($timeout)
         }
 
-        $batchSize = "${{ inputs.batch-size }}"
+        $batchSize = $env:INPUT_BATCH_SIZE
         if (-Not [string]::IsNullOrWhiteSpace($batchSize)) {
           $params["BatchSize"] = [System.Convert]::ToInt32($batchSize)
         }
 
-        $trace = "${{ inputs.trace }}"
+        $trace = $env:INPUT_TRACE
         if (-Not [string]::IsNullOrWhiteSpace($trace)) {
           if ([System.Convert]::ToBoolean($trace)) {
             Set-PSDebug -Trace 2
           }
         }
 
-        $clickOnceApplicationName = "${{ inputs.clickonce-application-name }}"
+        $clickOnceApplicationName = $env:INPUT_CLICKONCE_APPLICATION_NAME
         if (-Not [string]::IsNullOrWhiteSpace($clickOnceApplicationName)) {
           $params["ClickOnceApplicationName"] = $clickOnceApplicationName
         }
 
-        $clickOncePublisherName = "${{ inputs.clickonce-publisher-name }}"
+        $clickOncePublisherName = $env:INPUT_CLICKONCE_PUBLISHER_NAME
         if (-Not [string]::IsNullOrWhiteSpace($clickOncePublisherName)) {
           $params["ClickOncePublisherName"] = $clickOncePublisherName
         }
