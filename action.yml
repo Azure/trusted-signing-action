@@ -320,9 +320,6 @@ runs:
         if ([string]::IsNullOrWhiteSpace($endpoint)) {
           throw "The 'endpoint' input is required."
         }
-        if (-Not [string]::IsNullOrWhiteSpace($endpoint)) {
-          $params["Endpoint"] = $endpoint
-        }
 
         $trustedSigningAccountName = $env:INPUT_TRUSTED_SIGNING_ACCOUNT_NAME
         if ([string]::IsNullOrWhiteSpace($trustedSigningAccountName)) {
